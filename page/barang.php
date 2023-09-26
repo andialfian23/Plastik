@@ -57,6 +57,10 @@
                                         onclick="detail_barang(<?= $barang['id_barang'] ?>)">
                                         Detail
                                     </a>
+                                    <a href="#" class='badge badge-info' data-toggle='modal' data-target="#editProduct"
+                                        onclick="edit_barang(<?= $barang['id_barang'] ?>)">
+                                        Edit
+                                    </a>
                                     <a href="#" class='badge badge-danger'
                                         onclick="hapus_barang(<?= $barang['id_barang'] ?>)">
                                         Hapus
@@ -114,6 +118,46 @@
                                 <button type="button" class="btn bg-gradient-danger"
                                     data-dismiss="modal">Keluar</button>
                                 <button type="submit" class="btn bg-gradient-primary" id="btn_save">Simpan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="editProduct" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Form Edit Barang</h5>
+                                <button type="button" class="btn btn-close text-dark" aria-label="Close"
+                                    data-dismiss="modal">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="nama_barang">Nama Barang</label>
+                                    <input type="text" class="form-control" id="e_nama_barang"
+                                        placeholder="Masukkan Nama Barang">
+                                    <small id="notif_e_nama_barang" class="text-danger"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="harga_beli">Harga beli</label>
+                                    <input type="number" class="form-control" id="e_harga_beli"
+                                        placeholder="Masukkan Harga Barang">
+                                    <small id="notif_e_harga_beli" class="text-danger"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="harga_jual">Harga Jual</label>
+                                    <input type="number" class="form-control" id="e_harga_jual"
+                                        placeholder="Masukkan Harga Barang">
+                                    <small id="notif_e_harga_jual" class="text-danger"></small>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="e_id_barang" />
+                                <button type="button" class="btn bg-gradient-danger"
+                                    data-dismiss="modal">Keluar</button>
+                                <button type="submit" class="btn bg-gradient-primary" id="btn_save_edit">Simpan</button>
                             </div>
                         </div>
                     </div>
@@ -227,7 +271,23 @@ function add_stok(id) {
     $('#addStock input').val(null);
     $('#id_barang').val(id);
     $('#tgl_stok').val('<?= date('Y-m-d') ?>');
+
+    let params = {
+        id_barang: id,
+    }
+
+    $.ajax({
+        url: base_url + '/app/get_barang.php',
+        type: 'POST',
+        data: params,
+        dataType: 'json',
+        success: function(res) {
+            $('#txt_id_barang').val(res.id_barang);
+            $('#txt_nama_barang').val(res.nama_barang);
+        }
+    });
 }
+
 
 function detail_barang(id) {
     $('#stok').empty();
@@ -271,6 +331,26 @@ function detail_barang(id) {
                                         </div>
                                     </div>`);
             });
+        }
+    });
+}
+
+
+function edit_barang(id) {
+    $('#e_id_barang').val(id);
+    let params = {
+        id_barang: id,
+    }
+
+    $.ajax({
+        url: base_url + '/app/get_barang.php',
+        type: 'POST',
+        data: params,
+        dataType: 'json',
+        success: function(res) {
+            $('#e_nama_barang').val(res.nama_barang);
+            $('#e_harga_beli').val(res.harga_barang);
+            $('#e_harga_jual').val(res.harga_jual);
         }
     });
 }
@@ -365,6 +445,39 @@ $(function() {
         }
 
         req_ajx('/app/tambah_stok.php', data_input);
+    });
+
+    $('#btn_save_edit').click(function() {
+        $('#editProduct small').html('');
+        $('#editProduct input').removeClass('border-danger');
+
+        if ($('#e_nama_barang').val() == '') {
+            $('#e_nama_barang').addClass('border border-danger');
+            $('#notif_e_nama_barang').html('Nama Barang tidak Boleh Kosong !!');
+            return false;
+        }
+
+        if ($('#e_harga_beli').val() == '') {
+            $('#e_harga_beli').addClass('border border-danger');
+            $('#notif_e_harga_beli').html('Harga Beli tidak Boleh Kosong !!');
+            return false;
+        }
+
+        if ($('#e_harga_jual').val() == '') {
+            $('#e_harga_jual').addClass('border border-danger');
+            $('#notif_e_harga_jual').html('Harga Jual tidak Boleh Kosong !!');
+            return false;
+        }
+
+        let data_update = {
+            id_barang: $('#e_id_barang').val(),
+            nama_barang: $('#e_nama_barang').val(),
+            harga_beli: $('#e_harga_beli').val(),
+            harga_jual: $('#e_harga_jual').val(),
+        }
+
+        req_ajx('/app/edit_barang.php', data_update);
+
     });
 });
 </script>
