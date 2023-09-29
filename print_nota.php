@@ -106,14 +106,12 @@
 
 
                     $.each(res.data_nota, function(i, row) {
-                        $.each(res.data_nota, function(i, row) {
-                            $('#barang').append(`
+                        $('#barang').append(`
                                     <tr><td colspan="2">` + row.nama_barang + `</td></tr>
                                     <tr>
                                         <td>` + row.jml_keluar + ` x ` + row.harga_jual + `</td>
                                         <td align="right">` + row.total_harga + `</td>
                                     </tr>`);
-                        });
                     });
 
                     $('#txt_id_nota').html('ID Nota : ' + res.id_nota);

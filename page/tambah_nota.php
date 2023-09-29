@@ -1,6 +1,5 @@
 <?php 
 
-include 'database.php';
 extract($_POST);
 
 $id_nota = date('YmdHis');
@@ -8,7 +7,9 @@ $tgl_keluar = date('Y-m-d H:i:s');
 $q_insert_nota = mysqli_query($koneksi, "INSERT INTO nota (id_nota, tgl_keluar, nama_pembeli, total, bayar, kembalian, username) 
     VALUES('". $id_nota . "','" . $tgl_keluar . "','" . $nama_pembeli . "','" . $total . "','" . $bayar . "','" . $kembali . "','admin'); ");
 
-for ($i = 1; $i <= $total_row; $i++) {
+$total_row = count($id_barang);
+
+for ($i = 0; $i < $total_row; $i++) {
     $input_id = $id_barang[$i];
     $input_qty = $qty[$i];
     $input_harga = $harga[$i];
@@ -23,19 +24,32 @@ for ($i = 1; $i <= $total_row; $i++) {
 
 
 if($q_insert_nota){
-    $output = [
-        'kode' => 1,
-        'pesan' => 'Berhasil Menyimpan Data Nota ',
-        'id_nota' => $id_nota,
-    ];
+    $output = 'Berhasil Menyimpan Data Nota ';
 }else{
-    $output = [
-        'kode' => 0,
-        'pesan' => 'Gagal Menyimpan Data Nota '
-    ];
+    $output ='Gagal Menyimpan Data Nota ';
 }
 
 
-echo json_encode($output);
+// echo json_encode($output);
 
 ?>
+
+<h1><?= $output ?></h1>
+
+<hr />
+<a href="http://localhost/Plastik/" class="btn btn-success">KEMBALI KE HOME</a>
+<a href="http://localhost/Plastik/print_nota.php?id_nota=<?= $id_nota ?>" target="_blank" class="btn btn-primary">PRINT
+    NOTA</a>
+
+
+<script>
+// $(function() {
+//     var base_url = window.location.origin + '/Plastik';
+//     setTimeout(function() {
+
+//         window.open(base_url + '/print_nota.php?id_nota=<?= $id_nota ?>', '_blank');
+//         // window.location.href = base_url;
+
+//     }, <?= $total_row ?>999);
+// });
+</script>

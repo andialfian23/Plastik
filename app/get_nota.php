@@ -10,7 +10,9 @@ $query_nota = mysqli_query($koneksi, "SELECT id_pengeluaran, p.id_nota, p.id_bar
     INNER JOIN nota AS n ON p.id_nota = n.id_nota
     INNER JOIN barang as b ON p.id_barang = b.id_barang
     WHERE p.id_nota = '$id_nota'
-    ORDER BY id_pengeluaran ASC");
+    GROUP BY p.id_barang
+    ORDER BY id_pengeluaran ASC 
+    ");
 $no = 1;
 $tgl_keluar = null;
 $total = null;

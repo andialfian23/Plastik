@@ -105,56 +105,63 @@
                                     </button>
                                 </div>
                                 <div class="modal-body overflow-auto">
-                                    <div class="row">
-                                        <table class="table table-bordered table-hover table-sm" width="100%" id='nota'>
-                                        </table>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-2"></div>
-                                        <div class="col-10 justify-content-end">
-                                            <div class="form-group row">
-                                                <label for="total" class="col-sm-6 col-form-label text-right">
-                                                    Total</label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        id="txt_total" disabled />
-                                                    <input type="hidden" id="total" />
+                                    <form method="POST">
+
+
+                                        <div class="row">
+                                            <table class="table table-bordered table-hover table-sm" width="100%"
+                                                id='nota'>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-2"></div>
+                                            <div class="col-10 justify-content-end">
+                                                <div class="form-group row">
+                                                    <label for="total" class="col-sm-6 col-form-label text-right">
+                                                        Total</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="txt_total" disabled />
+                                                        <input type="hidden" id="total" name="total" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="bayar" class="col-sm-6 col-form-label text-right">
-                                                    Bayar</label>
-                                                <div class="col-sm-6">
-                                                    <input type="number" class="form-control form-control-sm"
-                                                        id="bayar" />
+                                                <div class="form-group row">
+                                                    <label for="bayar" class="col-sm-6 col-form-label text-right">
+                                                        Bayar</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="number" name="bayar"
+                                                            class="form-control form-control-sm" id="bayar" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="kembali" class="col-sm-6 col-form-label text-right">
-                                                    Kembali</label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        id="txt_kembali" disabled />
-                                                    <input type="hidden" id="kembali" />
+                                                <div class="form-group row">
+                                                    <label for="kembali" class="col-sm-6 col-form-label text-right">
+                                                        Kembali</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="txt_kembali" disabled />
+                                                        <input type="hidden" name="kembali" id="kembali" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="nama_pembeli" class="col-sm-6 col-form-label text-right">
-                                                    Nama Pembeli</label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                        id="nama_pembeli" />
+                                                <div class="form-group row">
+                                                    <label for="nama_pembeli"
+                                                        class="col-sm-6 col-form-label text-right">
+                                                        Nama Pembeli</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" name="nama_pembeli"
+                                                            class="form-control form-control-sm" id="nama_pembeli" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row ">
-                                                <div class="col-12 text-right">
-                                                    <input type="hidden" id="total_row" />
-                                                    <button type="button" id="btn_simpan"
-                                                        class="btn btn-primary btn-block">Simpan & Cetak Nota</button>
+                                                <div class="form-group row ">
+                                                    <div class="col-12 text-right">
+                                                        <button type="submit" class="btn btn-primary btn-block">Simpan &
+                                                            Cetak
+                                                            Nota</button>
+                                                    </div>
                                                 </div>
+
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                                 <div class="modal-footer bg-gradient-dark ">
                                     <button type="button"
@@ -190,13 +197,15 @@
                                 $('#keranjang').append(`
                                         <tr id='tr-` + id + `'>
                                             <td>` + stok.nama_barang + `</td>
-                                            <td><input type="hidden" id="harga-` + id + `" value="` + stok
+                                            <td><input type="hidden" name="harga[]" id="harga-` + id + `" value="` +
+                                    stok
                                     .harga_jual + `"  />
                                             ` + stok.harga_jual + `</td>
                                             <td id='td-stok-` + id + `'>
-                                                <input type="hidden" id="id_barang_` + id + `" value="` + stok
+                                                <input type="hidden" name="id_barang[]" id="id_barang_` + id +
+                                    `" value="` + stok
                                     .id_barang + `"  />
-                                                <input type="text" class='get_stok' id='qty-` + id +
+                                                <input type="text" name="qty[]" class='get_stok' id='qty-` + id +
                                     `' style="width:90px;" data-id='` + id +
                                     `' data-stok='` + stok.jml_pemasukan + `' data-harga='` +
                                     stok.harga_jual +
@@ -221,6 +230,34 @@
                     $('.get_stok').trigger('change');
                 }
 
+
+
+                $(document).on('click', '#btn_hitung_total', function() {
+                    let total = 0;
+                    var cloneTblKeranjang = $('#tbl_keranjang').html();
+                    $('#nota').empty();
+                    $('#nota').append($('#tbl_keranjang').html());
+                    // $('#nota tbody input').attr('disabled', 'disabled');
+
+                    $('#nota tbody tr').each(function(i) {
+                        const cellValue = $(this).find("td:nth-child(4)").data('total');
+                        total += parseInt(cellValue);
+
+                        const cellQty = $(this).find("td:nth-child(3)").data('qty');
+                        $(this).find("td:nth-child(3) .get_stok").val(cellQty);
+                        $(this).find("td:nth-child(3) .get_stok").attr('type', 'hidden');
+                        $(this).find("td:nth-child(3)").append(cellQty);
+
+                    });
+                    $('#nota').find("th:nth-child(5)").remove();
+                    $('#nota').find("td:nth-child(5)").remove();
+
+                    $('#total').val(total);
+                    $('#txt_total').val(total);
+
+                    $('#cekNota form').attr('action', base_url + '/index.php?page=tambah_nota');
+                });
+
                 $(document).on('change', '.get_stok', function() {
                     let id = $(this).data('id');
                     let harga = $(this).data('harga');
@@ -241,29 +278,6 @@
                         $('#total_harga-' + id).html(total_harga);
                         $('#total_harga-' + id).attr('data-total', total_harga);
                     }
-                });
-
-                $(document).on('click', '#btn_hitung_total', function() {
-                    let total = 0;
-                    var cloneTblKeranjang = $('#tbl_keranjang').html();
-                    $('#nota').empty();
-                    $('#nota').append($('#tbl_keranjang').html());
-                    $('#nota tbody input').attr('disabled', 'disabled');
-
-                    $('#nota tbody tr').each(function(i) {
-                        const cellValue = $(this).find("td:nth-child(4)").data('total');
-                        // const cellValue = $('#total_harga_' + i).val();
-                        total += parseInt(cellValue);
-
-                        const cellQty = $(this).find("td:nth-child(3)").data('qty');
-                        $(this).find("td:nth-child(3)").html(cellQty);
-
-                    });
-                    $('#nota').find("th:nth-child(5)").remove();
-                    $('#nota').find("td:nth-child(5)").remove();
-
-                    $('#total').val(total);
-                    $('#txt_total').val(total);
                 });
 
                 function hitung_total_harga(jml, harga) {

@@ -28,7 +28,6 @@ $.widget.bridge("uibutton", $.ui.button);
  <script src="AdminLTE_3/plugins/pdfmake/vfs_fonts.js"></script>
  <script src="AdminLTE_3/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
  <script src="AdminLTE_3/plugins/datatables-buttons/js/buttons.print.min.js"></script>
- <script src="AdminLTE_3/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
  <!-- AdminLTE App -->
- <script src="AdminLTE_3/dist/js/adminlte.js"></script>
+ <script src="AdminLTE_3/dist/js/adminlte.min.js"></script>
