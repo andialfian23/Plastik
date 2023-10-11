@@ -11,12 +11,11 @@
 
                 <div class="row">
 
-
                     <div class="col-6">
                         <div class="card card-info card-outline">
                             <div class="card-header">Data Barang</div>
                             <div class="card-body">
-                                <table class="table table-bordered table-hover table-sm" width="100%">
+                                <table class="table table-bordered table-hover table-sm" width="100%" id="barang">
                                     <thead>
                                         <tr>
                                             <th>Nama</th>
