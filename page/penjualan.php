@@ -166,8 +166,10 @@
 
                             </div>
                             <div class="modal-footer">
-                                <a href="#" target="_blank" id="btn_print_nota" class="btn btn-primary">Print Nota</a>
-                                <button type="button" class="btn btn-danger bg-gradient-danger ml-auto "
+                                <a href="#" target="_blank" id="btn_print_nota" class="btn btn-primary">Print Nota (kecil)</a>
+                                <a href="#" target="_blank" id="btn_print_faktur" class="btn btn-primary">Print Nota (besar)</a>
+                                
+								<button type="button" class="btn btn-danger bg-gradient-danger ml-auto "
                                     data-dismiss="modal">Keluar</button>
                             </div>
                         </div>
@@ -219,6 +221,8 @@
                         dataType: 'json',
                         success: function(res) {
                             $('#btn_print_nota').attr('href', base_url + '/print_nota.php?id_nota=' + res
+                                .id_nota);
+							$('#btn_print_faktur').attr('href', base_url + '/print_faktur.php?id_nota=' + res
                                 .id_nota);
 
                             $('#h_id_nota').html(res.tgl_keluar + ' : No.Nota ' + res.id_nota +

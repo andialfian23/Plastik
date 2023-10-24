@@ -39,7 +39,9 @@ if($q_insert_nota){
 <hr />
 <a href="http://localhost/Plastik/" class="btn btn-success">KEMBALI KE HOME</a>
 <a href="http://localhost/Plastik/print_nota.php?id_nota=<?= $id_nota ?>" target="_blank" class="btn btn-primary">PRINT
-    NOTA</a>
+    NOTA (Kecil)</a>
+	<a href="http://localhost/Plastik/print_faktur.php?id_nota=<?= $id_nota ?>" target="_blank" class="btn btn-primary">PRINT
+    NOTA (Besar)</a>
 
 
 <script>

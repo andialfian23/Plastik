@@ -15,7 +15,7 @@
     * {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-size: 14px;
-        font-weight: bold;
+        /* font-weight: bold; */
     }
 
     .luar {
@@ -62,11 +62,7 @@
                     <b id="txt_tanggal"></b> <br />
                 </p>
                 <hr>
-                <table class="table" cellspacing="0" id='barang'>
-
-
-
-                </table>
+                <table class="table" cellspacing="0" id='barang'></table>
                 <hr>
                 <table>
                     <tr>
