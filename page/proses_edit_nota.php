@@ -1,11 +1,13 @@
 <?php 
 
+$data_nota = [];
+
 extract($_POST);
 
-$id_nota = date('YmdHis');
-$tgl_keluar = date('Y-m-d H:i:s');
-$q_insert_nota = mysqli_query($koneksi, "INSERT INTO nota (id_nota, tgl_keluar, nama_pembeli, total, bayar, kembalian, username) 
-    VALUES('". $id_nota . "','" . $tgl_keluar . "','" . $nama_pembeli . "','" . $total . "','" . $bayar . "','" . $kembali . "','admin'); ");
+$q_update_nota = mysqli_query($koneksi, "UPDATE nota 
+    SET nama_pembeli='" . $nama_pembeli . "', total='" . $total . "', bayar='" . $bayar . "', kembalian'" . $kembali . "' 
+    WHERE id_nota='". $id_nota . "'");
+$q_delete_keluar = mysqli_query($koneksi,"DELETE FROM pengeluaran WHERE id_nota='".$id_nota."'");
 
 $total_row = count($id_barang);
 
@@ -22,15 +24,11 @@ for ($i = 0; $i < $total_row; $i++) {
     }
 }
 
-
-if($q_insert_nota){
-    $output = 'Berhasil Menyimpan Data Nota ';
+if($q_update_nota){
+    $output = 'Berhasil Mengubah Data Nota ';
 }else{
-    $output ='Gagal Menyimpan Data Nota ';
+    $output ='Gagal Mengubah Data Nota ';
 }
-
-
-// echo json_encode($output);
 
 ?>
 

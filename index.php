@@ -19,16 +19,12 @@ if (!isset($_SESSION['username'])) {
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="AdminLTE_3/plugins/fontawesome-free/css/all.min.css" />
-
-
     <!-- DataTables -->
     <link rel="stylesheet" href="AdminLTE_3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="AdminLTE_3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="AdminLTE_3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="AdminLTE_3/dist/css/adminlte.min.css" />
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="AdminLTE_3/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
     <!-- Daterange picker -->
     <link rel="stylesheet" href="AdminLTE_3/plugins/daterangepicker/daterangepicker.css" />
 
@@ -36,7 +32,6 @@ if (!isset($_SESSION['username'])) {
     <script src="AdminLTE_3/plugins/jquery/jquery.min.js"></script>
 
     <!-- daterange picker -->
-    <link rel="stylesheet" href="AdminLTE_3/plugins/daterangepicker/daterangepicker.css">
     <script src="AdminLTE_3/plugins/moment/moment.min.js"></script>
     <script src="AdminLTE_3/plugins/daterangepicker/daterangepicker.js"></script>
 </head>

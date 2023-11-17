@@ -1,30 +1,24 @@
 <div class="row">
     <div class="col-12">
         <div class="card card-danger card-outline">
-            <div class="card-header">
-                <h3 class="card-title">
-                    Data Penjualan
-                </h3>
+            <div class="card-header d-flex justify-content-between">
+
+                <div class="d-flex">
+                    <h3 class="card-title ">
+                        Data Penjualan
+                    </h3>
+                </div>
+                <div class="ml-auto d-flex">
+                    <h6 class="btn bg-gradient-info dropdown-toggle" id="reportrange">
+                        <b id="periode"></b>
+                    </h6>
+                </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
 
                 <div class="row">
-                    <!-- <div class="col-lg-3">
-                        <div class="col-12 col-sm-12 col-md-12">
-                            <div class="info-box shadow">
-                                <div class="info-box-content text-center">
-                                    <span class="info-box-text">Tanggal Penjualan</span>
 
-                                    <h6 class="btn bg-gradient-info dropdown-toggle" id="reportrange">
-                                        <b class="periode"></b>
-                                    </h6>
-                                </div>
-                            
-                            </div>
-                        </div>
-                        <input type="hidden" name="tanggal" id="tanggal" />
-                    </div> -->
                     <div class="col-lg-12">
                         <div class="row">
 
@@ -93,46 +87,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <table id="penjualan" class="table table-bordered table-hover table-sm responsive" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Tanggal</th>
-                                    <th>No. Nota</th>
-                                    <th>Pembeli</th>
-                                    <th>Total</th>
-                                    <th>--</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <?php 
-                            $query_nota = mysqli_query($koneksi, "SELECT * FROM nota");
-                            $no = 1;
-                            while($nota = mysqli_fetch_array($query_nota)){
-                        ?>
-                                <tr>
-                                    <td class="text-center"><?= $no; ?></td>
-                                    <td><?= $nota['tgl_keluar'] ?></td>
-                                    <td>
-                                        <a href="#" data-toggle="modal" data-target="#preview"
-                                            onclick="detail_nota('<?= $nota['id_nota'] ?>')">
-                                            <?= $nota['id_nota'] ?>
-                                        </a>
-                                    </td>
-                                    <td><?= $nota['nama_pembeli'] ?></td>
-                                    <td><?= number_format($nota['total']) ?></td>
-                                    <td>
-                                        <a href="#" class='badge badge-danger'
-                                            onclick="hapus_nota('<?= $nota['id_nota'] ?>')">
-                                            Hapus
-                                        </a>
-                                    </td>
-                                </tr>
-                                <?php $no++;  } ?>
-
-                            </tbody>
-                        </table>
+                        <div class="table-responsive" id="tbl-utama"></div>
                     </div>
                 </div>
 
@@ -166,10 +121,11 @@
 
                             </div>
                             <div class="modal-footer">
-                                <a href="#" target="_blank" id="btn_print_nota" class="btn btn-primary">Print Nota (kecil)</a>
-                                <a href="#" target="_blank" id="btn_print_faktur" class="btn btn-primary">Print Nota (besar)</a>
-                                
-								<button type="button" class="btn btn-danger bg-gradient-danger ml-auto "
+                                <a href="#" target="_blank" id="btn_print_nota" class="btn btn-primary">Print Nota
+                                    (kecil)</a>
+                                <a href="#" target="_blank" id="btn_print_faktur" class="btn btn-primary">Print Nota
+                                    (besar)</a>
+                                <button type="button" class="btn btn-danger bg-gradient-danger ml-auto "
                                     data-dismiss="modal">Keluar</button>
                             </div>
                         </div>
@@ -198,18 +154,19 @@
                     });
                 }
 
-                function hapus_nota(id) {
+                $(document).on('click', '.btn-hapus', function() {
                     if (confirm('Apakah anda yakin akan menghapus nota ini ? ')) {
+                        let id = $(this).data('id');
                         let data_input = {
                             id_nota: id,
                         }
                         req_ajx('/app/hapus_nota.php', data_input);
                     }
-                }
+                });
 
-                function detail_nota(id) {
+                $(document).on('click', '.btn-detail', function() {
                     $('#data_penjualan').empty();
-
+                    let id = $(this).data('id');
                     let data_input = {
                         id_nota: id,
                     }
@@ -220,9 +177,12 @@
                         data: data_input,
                         dataType: 'json',
                         success: function(res) {
-                            $('#btn_print_nota').attr('href', base_url + '/print_nota.php?id_nota=' + res
+                            $('#btn_print_nota').attr('href', base_url +
+                                '/print_nota.php?id_nota=' + res
                                 .id_nota);
-							$('#btn_print_faktur').attr('href', base_url + '/print_faktur.php?id_nota=' + res
+                            $('#btn_print_faktur').attr('href', base_url +
+                                '/print_faktur.php?id_nota=' +
+                                res
                                 .id_nota);
 
                             $('#h_id_nota').html(res.tgl_keluar + ' : No.Nota ' + res.id_nota +
@@ -242,20 +202,36 @@
                             });
                         }
                     });
-                }
+                });
 
                 $(function() {
 
+                    function get_data(start, end) {
+                        $.ajax({
+                            url: base_url + '/app/get_penjualan.php',
+                            type: 'POST',
+                            data: {
+                                xBegin: start,
+                                xEnd: end
+                            },
+                            dataType: 'json',
+                            success: function(res) {
+                                $('#periode').html(res.periode);
+                                $('#tbl-utama').empty();
+                                if (res.status == 1) {
+                                    $('#tbl-utama').append(res.data);
+                                    get_datatable();
+                                } else {
+                                    $('#tbl-utama').append(res.data);
+                                }
+                            }
+                        });
+                    }
 
                     function cb(start, end) {
-                        var tgl1 = start.format('YYYY-MM-DD');
-                        var tgl2 = end.format('YYYY-MM-DD');
-                        var periode = tgl1 + ' To <br /> ' + tgl2;
-
-                        $('#tanggal').val(periode);
-                        $('.periode').html(periode);
-
-                        // loadData();
+                        let tgl1 = start.format('YYYY-MM-DD');
+                        let tgl2 = end.format('YYYY-MM-DD');
+                        get_data(tgl1, tgl2);
                     }
 
                     $('#reportrange').daterangepicker({
@@ -272,27 +248,30 @@
                             ]
                         }
                     }, cb);
+
                     cb(start, end);
 
-                    $('#penjualan').DataTable({
-                        "autoWidth": true,
-                        "responsive": true,
-                        // "buttons": ["excel", "pdf", "print", "colvis"],
-                        dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
-                            "<'row'<'col-sm-12'tr>>" +
-                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                        buttons: [{
-                                extend: 'pageLength',
-                                text: 'Tampilkan',
-                                className: 'btn-sm btn-info',
-                            },
-                            {
-                                extend: 'pdf',
-                                className: 'btn-sm btn-danger',
-                                text: '<i class="fa fa-file-pdf"></i>&nbsp; PDF',
-                            },
-                        ],
-                    });
+                    function get_datatable() {
+                        $(document).find('#penjualan').DataTable({
+                            "autoWidth": true,
+                            "responsive": true,
+                            // "buttons": ["excel", "pdf", "print", "colvis"],
+                            dom: "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+                                "<'row'<'col-sm-12'tr>>" +
+                                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                            buttons: [{
+                                    extend: 'pageLength',
+                                    text: 'Tampilkan',
+                                    className: 'btn-sm btn-info',
+                                },
+                                {
+                                    extend: 'pdf',
+                                    className: 'btn-sm btn-danger',
+                                    text: '<i class="fa fa-file-pdf"></i>&nbsp; PDF',
+                                },
+                            ],
+                        });
+                    }
 
                 });
                 </script>
